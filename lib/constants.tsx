@@ -309,8 +309,11 @@ export const education: Education[] = [
 ];
 
 export const bio = {
-  intro:
-    "I'm a Front-End Developer with 2+ years of experience building responsive and high-performance web applications. I specialize in React.js, Next.js, and modern web technologies, focusing on creating clean, scalable UI with strong attention to detail.",
+  intro: `Front-End Developer with 2+ years of experience.
+Skilled in React.js, Next.js, and modern web technologies.
+Focused on clean, scalable, high-performance UI.
+Experienced with Node.js, Express.js, MongoDB, and MySQL.
+Able to build and collaborate on full-stack web solutions.`,
   extended:
     "Beyond frontend development, I have solid experience with backend technologies including Node.js, Express.js, MongoDB and MySQL. This full-stack knowledge allows me to build complete web solutions and collaborate effectively across all layers of development.",
   experience: "2+ years",
