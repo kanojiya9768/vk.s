@@ -37,20 +37,38 @@ export const Contact: React.FC = () => {
     },
   });
 
-  // Simulate form submission
   const onSubmit = async (data: ContactFormData) => {
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    console.log("Form submitted:", data);
+    try {
+      const response = await fetch(
+        "https://formsubmit.co/ajax/kanojiya9768@gmail.com",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify({
+            name: data.name,
+            email: data.email,
+            message: data.message,
+            _subject: "New Contact Form Message",
+            _captcha: false,
+            _template: "table",
+          }),
+        }
+      );
 
-    // Reset form after successful submission
-    reset();
+      if (!response.ok) {
+        throw new Error("Failed to submit form");
+      }
 
-    // Auto-hide success state after 3 seconds
-    setTimeout(() => {
-      // React Hook Form doesn't reset isSubmitSuccessful automatically
-      // We rely on visual feedback only
-    }, 3000);
+      const result = await response.json();
+      console.log("FormSubmit response:", result);
+
+      reset(); // clear form on success
+    } catch (error) {
+      console.error("Form submission error:", error);
+    }
   };
 
   return (
