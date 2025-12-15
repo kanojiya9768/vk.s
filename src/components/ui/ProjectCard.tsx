@@ -24,7 +24,7 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({
           <img
             src={project.image}
             alt={project.title}
-            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 group-hover:opacity-60"
+            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 group-hover:opacity-10"
             onError={(e) => (e.currentTarget.style.display = "none")}
           />
         )}

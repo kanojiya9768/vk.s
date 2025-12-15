@@ -1,6 +1,6 @@
 // src/components/Projects.tsx
 import React, { useState } from "react";
-import { projects } from "../../../lib/constants";
+import { categories, projects } from "../../../lib/constants";
 import { Github, ExternalLink } from "lucide-react";
 import RevealOnScroll from "../ui/RevealOnScroll";
 
@@ -10,8 +10,6 @@ export const Projects: React.FC = () => {
   const filteredProjects = projects.filter((project) => {
     return activeCategory === "All" || project.category === activeCategory;
   });
-
-  const categories = ["All", "Full-Stack", "Education", "Corporate"];
 
   return (
     <section id="projects" className="py-24 px-[5%] bg-dark-light relative">
