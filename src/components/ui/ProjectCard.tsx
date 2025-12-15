@@ -16,7 +16,6 @@ interface Project {
 
 const ProjectCard: React.FC<{ project: Project; index: number }> = ({
   project,
-  index,
 }) => {
   return (
     <div className="group relative bg-dark border border-white/5 rounded-xl overflow-hidden hover:border-primary/50 transition-all duration-300 h-full flex flex-col hover:-translate-y-2">

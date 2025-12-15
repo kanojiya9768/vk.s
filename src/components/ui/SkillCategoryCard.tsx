@@ -10,7 +10,7 @@ interface SkillCategory {
 const SkillCategoryCard: React.FC<{
   category: SkillCategory;
   index: number;
-}> = ({ category, index }) => {
+}> = ({ category }) => {
   return (
     <div className="glass-card p-8 rounded-xl h-full hover:border-primary/50 transition-colors group">
       <div className="flex items-center justify-between mb-6">
