@@ -25,9 +25,9 @@ export default function App() {
       <Navigation onScrollToSection={scrollToSection} />
       <Hero />
       <Skills />
-      <Projects />
       <Education />
       <WorkExperience />
+      <Projects />
       <Contact />
       <Footer />
     </div>
