@@ -309,7 +309,7 @@ export const education: Education[] = [
 ];
 
 export const bio = {
-  intro: `Front-End Developer with 2+ years of experience.
+  intro: `Full Stack Developer with 2+ years of experience.
 Skilled in React.js, Next.js, and modern web technologies.
 Focused on clean, scalable, high-performance UI.
 Experienced with Node.js, Express.js, MongoDB, and MySQL.
