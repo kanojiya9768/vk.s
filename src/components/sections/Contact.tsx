@@ -3,21 +3,15 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Send, CheckCircle2 } from "lucide-react";
+import { Send, CheckCircle2, Terminal } from "lucide-react";
 import { contactInfo, socialLinks } from "../../../lib/constants";
 import RevealOnScroll from "../ui/RevealOnScroll";
 
-// Zod schema for validation
+// Zod schema
 const contactSchema = z.object({
-  name: z
-    .string()
-    .min(2, "Name must be at least 2 characters")
-    .max(50, "Name must be less than 50 characters"),
-  email: z.string().email("Please enter a valid email address"),
-  message: z
-    .string()
-    .min(10, "Message must be at least 10 characters")
-    .max(1000, "Message is too long"),
+  name: z.string().min(2, "Name too short").max(50),
+  email: z.string().email("Invalid email"),
+  message: z.string().min(10, "Message too short").max(1000),
 });
 
 type ContactFormData = z.infer<typeof contactSchema>;
@@ -30,11 +24,6 @@ export const Contact: React.FC = () => {
     reset,
   } = useForm<ContactFormData>({
     resolver: zodResolver(contactSchema),
-    defaultValues: {
-      name: "",
-      email: "",
-      message: "",
-    },
   });
 
   const onSubmit = async (data: ContactFormData) => {
@@ -58,53 +47,66 @@ export const Contact: React.FC = () => {
         }
       );
 
-      if (!response.ok) {
-        throw new Error("Failed to submit form");
-      }
-
-      const result = await response.json();
-      console.log("FormSubmit response:", result);
-
-      reset(); // clear form on success
+      if (!response.ok) throw new Error("Submit failed");
+      reset();
     } catch (error) {
-      console.error("Form submission error:", error);
+      console.error("Submission error:", error);
     }
   };
 
   return (
     <section
       id="contact"
-      className="py-24 px-[5%] bg-dark-light relative border-t border-white/5"
+      className="py-24 px-[5%] bg-black relative overflow-hidden border-t border-green-900/30"
     >
-      <div className="max-w-[1200px] mx-auto">
+      {/* Scanlines & noise overlay */}
+      <div className="absolute inset-0 pointer-events-none opacity-10">
+        <div className="absolute inset-0 bg-scanlines"></div>
+        <div className="absolute inset-0 bg-noise opacity-30"></div>
+      </div>
+
+      <div className="max-w-[1400px] mx-auto">
+        {/* Terminal header */}
+        <div className="mb-8 flex items-center gap-4  font-mono text-sm">
+          <Terminal size={20} className="animate-pulse" />
+          <span className="tracking-wider">root@portfolio:~/contact</span>
+          <span className="animate-pulse">_</span>
+        </div>
+
         <RevealOnScroll>
-          <h2 className="text-4xl md:text-5xl font-bold mb-12 text-center">
-            Initialize Connection
+          <h2
+            className="text-4xl md:text-5xl font-bold font-mono mb-16 text-center tracking-wider glitch"
+            data-text="> INITIALIZE CONNECTION"
+          >
+            &gt; INITIALIZE CONNECTION
           </h2>
         </RevealOnScroll>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
-          {/* Left: Info */}
+          {/* Left: Hacker Info Panel */}
           <RevealOnScroll delay={100}>
-            <div>
-              <p className="text-xl text-text-dim mb-8">
-                Currently available for freelance work and full-time positions.
-                Drop a message to discuss your next project.
+            <div className="space-y-8">
+              <p className="text-green-300 font-mono text-lg leading-relaxed opacity-90">
+                // Status: ONLINE
+                <br />
+                // Available for freelance missions and full-time contracts.
+                <br />
+                // Transmit coordinates to establish secure channel.
               </p>
 
-              <div className="space-y-6">
-                {contactInfo.map((item, index) => (
-                  <div key={index} className="flex items-center gap-4 group">
-                    <div className="w-12 h-12 bg-white/5 rounded-lg flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-dark transition-colors">
-                      <item.icon size={24} />
+              <div className="space-y-6 font-mono">
+                {contactInfo.map((item, i) => (
+                  <div key={i} className="flex items-center gap-5 group">
+                    <div className="w-12 h-12 border border-green-800 rounded-lg flex items-center justify-center group-hover:border-green-500 group-hover:bg-green-900/20 transition-all">
+                      <item.icon size={22} className="" />
                     </div>
                     <div>
-                      <div className="text-xs font-mono text-text-dim uppercase">
+                      <div className="text-xs uppercase tracking-wider">
                         {item.label}
                       </div>
                       <a
                         href={item.link || "#"}
-                        className="text-lg font-medium text-white hover:text-accent transition-colors"
+                        className="text-green-100 text-lg hover:text-green-100 transition-colors"
                       >
                         {item.value}
                       </a>
@@ -120,7 +122,7 @@ export const Contact: React.FC = () => {
                     href={link.link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="p-3 bg-white/5 rounded-lg text-white hover:bg-primary hover:text-dark transition-all hover:-translate-y-1"
+                    className="p-3 border border-green-800 rounded-lg text-green-400 hover:border-green-500 hover:bg-green-900/30 hover:text-green-300 hover:-translate-y-1 transition-all"
                   >
                     <link.icon size={24} />
                   </a>
@@ -129,132 +131,148 @@ export const Contact: React.FC = () => {
             </div>
           </RevealOnScroll>
 
-          {/* Right: Code Editor Form */}
+          {/* Right: Terminal Code Editor Form */}
           <RevealOnScroll delay={200}>
-            <div className="terminal-window rounded-xl overflow-hidden shadow-2xl">
-              <div className="bg-[#1a1a1a] px-4 py-2 flex items-center justify-between border-b border-[#333]">
-                <div className="text-xs text-text-dim font-mono">
-                  contact.tsx
-                </div>
-                <div className="flex gap-1">
-                  <div className="w-2.5 h-2.5 rounded-full bg-white/20"></div>
-                  <div className="w-2.5 h-2.5 rounded-full bg-white/20"></div>
-                </div>
-              </div>
-
-              <div className="bg-[#0c0c0c] p-6 font-mono text-sm">
-                <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-                  {/* Name Field */}
-                  <div>
-                    <div className="text-text-dim mb-1 text-xs">
-                      // Enter your name
-                    </div>
-                    <div className="flex items-center">
-                      <span className="text-secondary mr-2">const</span>
-                      <span className="text-accent mr-2">name</span>
-                      <span className="text-white mr-2">=</span>
-                      <span className="text-green-400 mr-1">"</span>
-                      <input
-                        {...register("name")}
-                        type="text"
-                        className="code-input flex-1"
-                        placeholder="John Doe"
-                        disabled={isSubmitting || isSubmitSuccessful}
-                      />
-                      <span className="text-green-400">";</span>
-                    </div>
-                    {errors.name && (
-                      <p className="text-red-400 text-xs mt-1 pl-2">
-                        {errors.name.message}
-                      </p>
-                    )}
+            <div className="relative">
+              {/* Terminal Window */}
+              <div className="border border-green-900 rounded-xl overflow-hidden bg-black/80 backdrop-blur-md shadow-2xl shadow-green-500/20">
+                {/* Window Header */}
+                <div className="bg-gradient-to-r from-green-950 to-black px-5 py-3 flex items-center justify-between border-b border-green-900">
+                  <div className="flex items-center gap-3">
+                    <span className="w-3 h-3 rounded-full bg-red-500"></span>
+                    <span className="w-3 h-3 rounded-full bg-yellow-500"></span>
+                    <span className="w-3 h-3 rounded-full bg-green-500"></span>
                   </div>
+                  <span className="text-green-600 font-mono text-sm tracking-wider">
+                    contact.tsx
+                  </span>
+                  <div className="w-12" /> {/* spacer */}
+                </div>
 
-                  {/* Email Field */}
-                  <div>
-                    <div className="text-text-dim mb-1 text-xs">
-                      // Enter your email
-                    </div>
-                    <div className="flex items-center">
-                      <span className="text-secondary mr-2">const</span>
-                      <span className="text-accent mr-2">email</span>
-                      <span className="text-white mr-2">=</span>
-                      <span className="text-green-400 mr-1">"</span>
-                      <input
-                        {...register("email")}
-                        type="email"
-                        className="code-input flex-1"
-                        placeholder="john@example.com"
-                        disabled={isSubmitting || isSubmitSuccessful}
-                      />
-                      <span className="text-green-400">";</span>
-                    </div>
-                    {errors.email && (
-                      <p className="text-red-400 text-xs mt-1 pl-2">
-                        {errors.email.message}
-                      </p>
-                    )}
-                  </div>
-
-                  {/* Message Field */}
-                  <div>
-                    <div className="text-text-dim mb-1 text-xs">
-                      // Your message
-                    </div>
-                    <div className="flex items-start">
-                      <span className="text-secondary mr-2 whitespace-nowrap">
-                        const
+                {/* Code Editor Body */}
+                <div className="p-6 font-mono text-sm">
+                  <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+                    {/* Name */}
+                    <div>
+                      <span className="text-green-700 text-xs">
+                        // Your identifier
                       </span>
-                      <span className="text-accent mr-2">msg</span>
-                      <span className="text-white mr-2">=</span>
-                      <span className="text-green-400 mr-1">`</span>
-                      <textarea
-                        {...register("message")}
-                        rows={3}
-                        className="code-input flex-1 resize-none"
-                        placeholder="Hello, I'd like to hire you..."
-                        disabled={isSubmitting || isSubmitSuccessful}
-                      />
-                      <span className="text-green-400">`;</span>
-                    </div>
-                    {errors.message && (
-                      <p className="text-red-400 text-xs mt-1 pl-2">
-                        {errors.message.message}
-                      </p>
-                    )}
-                  </div>
-
-                  <div className="pt-4 flex justify-end">
-                    <button
-                      type="submit"
-                      disabled={isSubmitting || isSubmitSuccessful}
-                      className={`
-                        px-6 py-2 rounded font-sans font-bold text-dark transition-all flex items-center gap-2
-                        ${
-                          isSubmitSuccessful
-                            ? "bg-green-500 hover:bg-green-600"
-                            : "bg-primary hover:bg-primary/90 hover:scale-105"
-                        }
-                        ${isSubmitting ? "opacity-70 cursor-wait" : ""}
-                      `}
-                    >
-                      {isSubmitting ? (
-                        "Sending..."
-                      ) : isSubmitSuccessful ? (
-                        <>
-                          Sent <CheckCircle2 size={18} />
-                        </>
-                      ) : (
-                        <>
-                          Send <Send size={18} />
-                        </>
+                      <div className="mt-2 flex items-center gap-2">
+                        <span className="text-purple-400">const</span>
+                        <span className="text-cyan-400">name</span>
+                        <span className="text-white">=</span>
+                        <span className="text-green-400">"</span>
+                        <input
+                          {...register("name")}
+                          type="text"
+                          placeholder="Anonymous"
+                          disabled={isSubmitting || isSubmitSuccessful}
+                          className="bg-transparent border-b border-green-800 focus:border-green-400 outline-none text-green-300 flex-1 px-2 py-1 transition-colors"
+                        />
+                        <span className="text-green-400">"; </span>
+                      </div>
+                      {errors.name && (
+                        <p className="text-red-400 text-xs mt-1">
+                          → {errors.name.message}
+                        </p>
                       )}
-                    </button>
-                  </div>
-                </form>
+                    </div>
+
+                    {/* Email */}
+                    <div>
+                      <span className="text-green-700 text-xs">
+                        // Transmission address
+                      </span>
+                      <div className="mt-2 flex items-center gap-2">
+                        <span className="text-purple-400">const</span>
+                        <span className="text-cyan-400">email</span>
+                        <span className="text-white">=</span>
+                        <span className="text-green-400">"</span>
+                        <input
+                          {...register("email")}
+                          type="email"
+                          placeholder="user@domain.net"
+                          disabled={isSubmitting || isSubmitSuccessful}
+                          className="bg-transparent border-b border-green-800 focus:border-green-400 outline-none text-green-300 flex-1 px-2 py-1 transition-colors"
+                        />
+                        <span className="text-green-400">"; </span>
+                      </div>
+                      {errors.email && (
+                        <p className="text-red-400 text-xs mt-1">
+                          → {errors.email.message}
+                        </p>
+                      )}
+                    </div>
+
+                    {/* Message */}
+                    <div>
+                      <span className="text-green-700 text-xs">// Payload</span>
+                      <div className="mt-2 flex items-start gap-2">
+                        <span className="text-purple-400">const</span>
+                        <span className="text-cyan-400">payload</span>
+                        <span className="text-white">=</span>
+                        <span className="text-green-400">`</span>
+                        <textarea
+                          {...register("message")}
+                          rows={5}
+                          placeholder="Transmit message..."
+                          disabled={isSubmitting || isSubmitSuccessful}
+                          className="bg-transparent border border-green-800 rounded focus:border-green-400 outline-none text-green-300 flex-1 px-3 py-2 resize-none transition-colors"
+                        />
+                        <span className="text-green-400">`;</span>
+                      </div>
+                      {errors.message && (
+                        <p className="text-red-400 text-xs mt-1">
+                          → {errors.message.message}
+                        </p>
+                      )}
+                    </div>
+
+                    {/* Submit */}
+                    <div className="pt-4 flex justify-end">
+                      <button
+                        type="submit"
+                        disabled={isSubmitting || isSubmitSuccessful}
+                        className={`
+                          px-8 py-3 rounded font-mono font-bold flex items-center gap-3 transition-all
+                          ${
+                            isSubmitSuccessful
+                              ? "bg-green-600/80 text-green-100 border border-green-500"
+                              : "bg-green-500/80 hover:bg-green-400 hover:shadow-lg hover:shadow-green-500/50 hover:scale-105 text-black border border-green-400"
+                          }
+                          ${isSubmitting ? "opacity-60 cursor-wait" : ""}
+                        `}
+                      >
+                        {isSubmitting ? (
+                          <>Transmitting...</>
+                        ) : isSubmitSuccessful ? (
+                          <>
+                            <CheckCircle2 size={20} /> Transmitted
+                          </>
+                        ) : (
+                          <>
+                            <Send size={20} /> Transmit
+                          </>
+                        )}
+                      </button>
+                    </div>
+                  </form>
+
+                  {isSubmitSuccessful && (
+                    <div className="mt-6 text-green-400 font-mono text-sm animate-pulse">
+                      ✓ Connection established. Awaiting response...
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           </RevealOnScroll>
+        </div>
+
+        {/* Bottom terminal line */}
+        <div className="mt-20 text-center text-green-600 font-mono text-sm opacity-60">
+          <span>&gt; System online. Ready for incoming transmissions.</span>
+          <span className="animate-pulse ml-2">_</span>
         </div>
       </div>
     </section>

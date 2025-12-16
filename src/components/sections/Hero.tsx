@@ -1,6 +1,6 @@
 // src/components/Hero.tsx
 import React from "react";
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, Terminal } from "lucide-react";
 import { bio } from "../../../lib/constants";
 
 export const Hero: React.FC = () => {
@@ -19,6 +19,21 @@ export const Hero: React.FC = () => {
       id="home"
       className="min-h-screen flex items-center px-[5%] pt-20 relative overflow-hidden"
     >
+      {/* Global scanlines + noise */}
+      <div className="absolute inset-0 pointer-events-none opacity-10">
+        <div className="absolute inset-0 bg-scanlines"></div>
+        <div className="absolute inset-0 bg-noise opacity-30"></div>
+      </div>
+
+      {/* Terminal top bar */}
+      <div className="absolute top-0 left-0 w-full pt-8 px-[5%]">
+        <div className="max-w-[1400px] mx-auto flex items-center gap-4 text-green-400 font-mono text-sm">
+          <Terminal size={20} className="animate-pulse" />
+          <span className="tracking-wider">root@portfolio:~</span>
+          <span className="animate-pulse">_</span>
+        </div>
+      </div>
+
       <div className="max-w-[1400px] w-full mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
         <div className="order-2 lg:order-1">
           <div
@@ -30,7 +45,9 @@ export const Hero: React.FC = () => {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
               </span>
-              Available for work
+              <span className="text-green-400 font-mono text-sm tracking-wider">
+                ONLINE // AVAILABLE FOR CHALLENGES
+              </span>
             </div>
           </div>
 
@@ -45,12 +62,13 @@ export const Hero: React.FC = () => {
           </h1>
 
           <div
-            className="flex items-center gap-2 mb-8 animate-fade-in-up"
+            className="flex items-center gap-3 mb-8  text-xl md:text-2xl animate-fade-in-up w-max"
             style={{ animationDelay: "0.3s" }}
           >
-            <span className="text-primary font-mono text-xl">&gt;</span>
-            <p className="text-xl md:text-2xl text-text/80 font-mono overflow-hidden whitespace-nowrap border-r-4 border-primary pr-1 animate-typing animate-blink w-fit">
+            <span className="text-green-500 font-mono">$</span>
+            <p className="text-green-300 font-mono overflow-hidden border-r-4 border-green-400 pr-2 animate-typing whitespace-nowrap w-max">
               Full Stack Developer
+              <span className="animate-pulse text-green-400 w-fit">_</span>
             </p>
           </div>
 
@@ -61,76 +79,96 @@ export const Hero: React.FC = () => {
             {bio.intro}
           </p>
 
-          <div
-            className="flex flex-wrap gap-4 animate-fade-in-up"
-            style={{ animationDelay: "0.5s" }}
-          >
+          {/* Action Buttons */}
+          <div className="flex flex-wrap gap-5 pt-4">
             <button
               onClick={() => scrollToSection("projects")}
-              className="group relative px-8 py-3 bg-primary text-dark font-bold rounded-lg overflow-hidden transition-all hover:scale-105"
+              className="group px-8 py-4 bg-green-500 border border-green-500 rounded-lg font-mono font-bold text-black hover:bg-green-500 hover:shadow-lg hover:shadow-green-500/50 hover:scale-105 transition-all duration-300 flex items-center gap-3"
             >
-              <div className="absolute inset-0 w-full h-full bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
-              <span className="relative flex items-center gap-2">
-                View Projects <ChevronRight size={18} />
-              </span>
+              <span>EXECUTE PROJECTS</span>
+              <ChevronRight
+                size={20}
+                className="group-hover:translate-x-1 transition-transform"
+              />
             </button>
 
             <button
               onClick={() => scrollToSection("contact")}
-              className="px-8 py-3 bg-transparent border border-white/20 text-text font-bold rounded-lg hover:bg-white/5 hover:border-white/40 transition-all hover:scale-105"
+              className="px-8 py-4 border border-green-800 rounded-lg font-mono font-bold text-green-400 hover:border-green-500 hover:bg-green-900/30 hover:text-green-300 transition-all duration-300"
             >
-              Contact Me
+              INITIATE CONTACT
             </button>
           </div>
         </div>
 
-        <div
-          className="order-1 lg:order-2 flex justify-center lg:justify-end animate-fade-in-up"
-          style={{ animationDelay: "0.6s" }}
-        >
-          <div className="relative w-full max-w-[500px] aspect-square">
-            {/* Abstract decorative tech circle */}
-            <div className="absolute inset-0 rounded-full border border-white/5 animate-[spin_10s_linear_infinite]"></div>
-            <div className="absolute inset-4 rounded-full border border-primary/20 animate-[spin_15s_linear_infinite_reverse]"></div>
-            <div className="absolute inset-8 rounded-full border border-accent/20 animate-[spin_20s_linear_infinite]"></div>
+        {/* Right: Hacker Avatar Terminal Window */}
+        <div className="order-1 lg:order-2 flex justify-center lg:justify-end">
+          <div className="relative w-full max-w-[520px]">
+            {/* Orbiting elements */}
+            <div className="absolute inset-0 animate-[spin_30s_linear_infinite]">
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-32 border border-green-900/30 rounded-full"></div>
+            </div>
+            <div className="absolute inset-0 animate-[spin_40s_linear_infinite_reverse]">
+              <div className="absolute bottom-0 right-0 w-48 h-48 border border-green-800/20 rounded-full"></div>
+            </div>
 
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="glass-card p-8 rounded-2xl w-3/4 animate-float">
-                <div className="flex items-center gap-2 mb-4 border-b border-white/10 pb-4">
-                  <div className="flex gap-1.5">
-                    <div className="w-3 h-3 rounded-full bg-red-500"></div>
-                    <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-                    <div className="w-3 h-3 rounded-full bg-green-500"></div>
-                  </div>
-                  <div className="text-xs font-mono text-text-dim ml-2">
-                    developer.tsx
-                  </div>
+            {/* Main Terminal Window */}
+            <div className="border border-green-900 rounded-xl overflow-hidden bg-black/80 backdrop-blur-md shadow-2xl shadow-green-500/30">
+              {/* Window Header */}
+              <div className="bg-gradient-to-r from-green-950 to-black px-6 py-4 flex items-center justify-between border-b border-green-900">
+                <div className="flex items-center gap-3">
+                  <span className="w-3 h-3 rounded-full bg-red-500"></span>
+                  <span className="w-3 h-3 rounded-full bg-yellow-500"></span>
+                  <span className="w-3 h-3 rounded-full bg-green-500"></span>
                 </div>
-                <div className="font-mono text-sm space-y-2">
-                  <div>
-                    <span className="text-secondary">const</span>{" "}
-                    <span className="text-accent">coder</span>{" "}
-                    <span className="text-white">=</span>{" "}
-                    <span className="text-primary">{"{"}</span>
-                  </div>
-                  <div className="pl-4">
-                    <span className="text-white">name:</span>{" "}
-                    <span className="text-green-400">'Vishal'</span>,
-                  </div>
-                  <div className="pl-4">
-                    <span className="text-white">skills:</span>{" "}
-                    <span className="text-primary">
-                      ['React', 'Node', 'Next']
-                    </span>
-                    ,
-                  </div>
-                  <div className="pl-4">
-                    <span className="text-white">hardWorker:</span>{" "}
-                    <span className="text-secondary">true</span>
-                  </div>
-                  <div>
-                    <span className="text-primary">{"}"}</span>;
-                  </div>
+                <span className="text-green-600 font-mono text-sm tracking-wider">
+                  software_engineer.tsx
+                </span>
+              </div>
+
+              {/* Code Content */}
+              <div className="p-8 font-mono text-sm leading-relaxed">
+                <div className="text-green-700">// System initialized</div>
+                <div className="mt-4">
+                  <span className="text-purple-400">const</span>{" "}
+                  <span className="text-cyan-400">developer</span>{" "}
+                  <span className="text-white">=</span>{" "}
+                  <span className="text-green-400">{"{"}</span>
+                </div>
+                <div className="pl-6">
+                  <span className="text-green-300">identity:</span>{" "}
+                  <span className="text-green-400">'Vishal Kanojiya'</span>,
+                </div>
+                <div className="pl-6">
+                  <span className="text-green-300">role:</span>{" "}
+                  <span className="text-green-400">
+                    'Full Stack Developer (Software Engineer)'
+                  </span>
+                  ,
+                </div>
+                <div className="pl-6">
+                  <span className="text-green-300">stack:</span>{" "}
+                  <span className="text-yellow-400">
+                    ['Javascript','Typescript','React',
+                    'Next.js','Node.js','Express js' 'Mongo
+                    DB','MySql','Git','Github']
+                  </span>
+                  ,
+                </div>
+                <div className="pl-6">
+                  <span className="text-green-300">status:</span>{" "}
+                  <span className="text-green-400 animate-pulse">ONLINE</span>,
+                </div>
+                <div className="pl-6">
+                  <span className="text-green-300">mission:</span>{" "}
+                  <span className="text-green-400">'Build the future'</span>
+                </div>
+                <div>
+                  <span className="text-green-400">{"}"}</span>;
+                </div>
+
+                <div className="mt-8 text-green-500 animate-pulse">
+                  $ awaiting_command_
                 </div>
               </div>
             </div>

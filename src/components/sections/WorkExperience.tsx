@@ -5,7 +5,7 @@ import RevealOnScroll from "../ui/RevealOnScroll";
 const WorkExperience = () => {
   return (
     <RevealOnScroll>
-      <section id="work" className="py-24 px-[5%] relative bg-dark-light">
+      <section id="experience" className="py-24 px-[5%] relative bg-dark-light">
         <div className="max-w-[1000px] mx-auto relative z-10">
           <div className="flex flex-col items-start mb-16">
             <h2 className="text-4xl md:text-5xl font-bold mb-4 flex items-center gap-3">

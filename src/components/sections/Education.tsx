@@ -6,7 +6,7 @@ import RevealOnScroll from "../ui/RevealOnScroll";
 
 export const Education: React.FC = () => {
   return (
-    <section id="experience" className="py-24 px-[5%] relative overflow-hidden">
+    <section id="education" className="py-24 px-[5%] relative overflow-hidden">
       {/* Decorative Grid */}
       <div className="absolute inset-0 grid-overlay opacity-30"></div>
 

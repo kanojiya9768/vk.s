@@ -13,7 +13,14 @@ export const Navigation: React.FC<NavigationProps> = ({
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
-  const menuItems = ["Home", "Skills", "Projects", "Experience", "Contact"];
+  const menuItems = [
+    "Home",
+    "Skills",
+    "Projects",
+    "Education",
+    "Experience",
+    "Contact",
+  ];
 
   return (
     <nav className="fixed top-0 left-0 right-0 h-20 flex items-center px-[5%] z-50 bg-dark/80 backdrop-blur-md border-b border-white/5 animate-slide-down">

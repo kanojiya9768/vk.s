@@ -118,7 +118,7 @@ export const Projects: React.FC = () => {
                     {project.title}
                   </h3>
 
-                  <p className="text-text-dim text-sm mb-6 line-clamp-3 leading-relaxed">
+                  <p className="text-text-dim text-sm mb-6 line-clamp-5 leading-relaxed">
                     {project.description}
                   </p>
 
