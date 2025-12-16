@@ -42,8 +42,8 @@ export const Projects: React.FC = () => {
         </RevealOnScroll>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredProjects.map((project, index) => (
-            <RevealOnScroll key={project.id} delay={index * 50}>
+          {filteredProjects.map((project) => (
+            <RevealOnScroll key={project.id}>
               <div className="group relative bg-dark border border-white/5 rounded-xl overflow-hidden hover:border-primary/50 transition-all duration-300 h-full flex flex-col hover:-translate-y-2">
                 {/* Card Image Area */}
                 <div className="relative h-52 overflow-hidden bg-dark-card border-b border-white/5 group-hover:border-primary/20 transition-colors">
