@@ -17,7 +17,7 @@ export const Hero: React.FC = () => {
   return (
     <section
       id="home"
-      className="min-h-screen flex items-center px-[5%] pt-20 relative overflow-hidden"
+      className="min-h-screen flex items-center px-[5%] pt-28 md:pt-16 relative overflow-hidden"
     >
       {/* Global scanlines + noise */}
       <div className="absolute inset-0 pointer-events-none opacity-10">
@@ -25,17 +25,17 @@ export const Hero: React.FC = () => {
         <div className="absolute inset-0 bg-noise opacity-30"></div>
       </div>
 
-      {/* Terminal top bar */}
-      <div className="absolute top-0 left-0 w-full pt-8 px-[5%]">
-        <div className="max-w-[1400px] mx-auto flex items-center gap-4 text-green-400 font-mono text-sm">
-          <Terminal size={20} className="animate-pulse" />
-          <span className="tracking-wider">root@portfolio:~</span>
-          <span className="animate-pulse">_</span>
-        </div>
-      </div>
+      <div className="max-w-[1400px] w-full mx-auto grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+        <div className="order-2 lg:order-1 relative">
+          {/* Terminal top bar */}
+          <div className="absolute -top-20 -left-8 w-full pt-8 px-[5%]">
+            <div className="max-w-[1400px] mx-auto flex items-center gap-4 text-green-400 font-mono text-sm">
+              <Terminal size={20} className="animate-pulse" />
+              <span className="tracking-wider">root@portfolio:~</span>
+              <span className="animate-pulse">_</span>
+            </div>
+          </div>
 
-      <div className="max-w-[1400px] w-full mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-        <div className="order-2 lg:order-1">
           <div
             className="animate-fade-in-up"
             style={{ animationDelay: "0.1s" }}
